@@ -12,21 +12,21 @@ A **full-stack MERN paper trading simulator** where users can practice stock tra
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🔐 **Authentication** — JWT-based register/login with bcrypt password hashing
-- 💰 **Virtual Trading** — Buy/sell stocks with $100,000 virtual capital
-- 📊 **Real Market Data** — Alpha Vantage API integration (with mock data fallback)
-- 💼 **Portfolio Tracking** — Live P&L, average price, and position value
-- ⭐ **Watchlist** — Track your favorite stocks
-- 📜 **Trade History** — Complete transaction log
-- 🌙 **Dark/Light Mode** — Full theme toggle
-- 🛡️ **Admin Panel** — Manage users, balances, and tracked stocks
-- 📱 **Responsive** — Works on mobile, tablet, and desktop
+-  **Authentication** — JWT-based register/login with bcrypt password hashing
+-  **Virtual Trading** — Buy/sell stocks with $100,000 virtual capital
+-  **Real Market Data** — Alpha Vantage API integration (with mock data fallback)
+-  **Portfolio Tracking** — Live P&L, average price, and position value
+-  **Watchlist** — Track your favorite stocks
+-  **Trade History** — Complete transaction log
+-  **Dark/Light Mode** — Full theme toggle
+-  **Admin Panel** — Manage users, balances, and tracked stocks
+-  **Responsive** — Works on mobile, tablet, and desktop
 
 ---
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -40,7 +40,7 @@ A **full-stack MERN paper trading simulator** where users can practice stock tra
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 sb-stocks/
@@ -68,7 +68,7 @@ sb-stocks/
 
 ---
 
-## ⚡ Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -145,7 +145,7 @@ db.users.updateOne(
 
 ---
 
-## 🌐 API Reference
+##  API Reference
 
 ### Auth
 | Method | Endpoint | Description |
@@ -190,7 +190,7 @@ db.users.updateOne(
 
 ---
 
-## ☁️ Deployment
+##  Deployment
 
 ### Backend → Render
 
@@ -212,7 +212,7 @@ db.users.updateOne(
 
 ---
 
-## 🔑 Alpha Vantage API Notes
+##  Alpha Vantage API Notes
 
 - Free tier: **25 API calls/day**, **5 calls/minute**
 - App automatically falls back to **realistic mock data** when rate limits are hit (shown as "DEMO" badge)
@@ -220,7 +220,7 @@ db.users.updateOne(
 
 ---
 
-## 🔒 Security Features
+##  Security Features
 
 - ✅ bcrypt password hashing (salt rounds: 10)
 - ✅ JWT authentication with expiry
@@ -232,7 +232,7 @@ db.users.updateOne(
 
 ---
 
-## 📦 Database Models
+##  Database Models
 
 ### User
 ```
@@ -258,10 +258,10 @@ Compound index: (userId + symbol) = unique per user
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — Free to use for educational and personal projects.
 
 ---
 
-**Built with ❤️ for aspiring traders.**
+
