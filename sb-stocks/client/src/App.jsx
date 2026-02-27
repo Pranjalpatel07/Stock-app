@@ -20,14 +20,14 @@ import Layout from './components/layout/Layout';
 // Protected route wrapper
 const PrivateRoute = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
-  return user ? children : <Navigate to="/login" replace />;
+  return children ;
 };
 
 // Admin route wrapper
 const AdminRoute = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role !== 'admin') return <Navigate to="/dashboard" replace />;
+  // if (!user) return <Navigate to="/login" replace />;
+  // if (user.role !== 'admin') return <Navigate to="/dashboard" replace />;
   return children;
 };
 

@@ -39,6 +39,7 @@ export default function Register() {
       toast.error('Password must be at least 6 characters');
       return;
     }
+    navigate('/dashboard');
     dispatch(register({ name: form.name, email: form.email, password: form.password }));
   };
 
@@ -91,7 +92,7 @@ export default function Register() {
               disabled={loading}
               className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 mt-2"
             >
-              {loading ? <Spinner size="sm" /> : '🚀 Create Free Account'}
+              {loading ? <Spinner size="sm" /> : ' Create Free Account'}
             </button>
           </form>
 
