@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/stocks', require('./routes/stockRoutes'));
 app.use('/api/trade', require('./routes/tradeRoutes'));
-app.use('/api/portfolio', require('./routes/portfolioRoutes'));
+//app.use('/api/portfolio', require('./routes/portfolioRoutes'));
 app.use('/api/watchlist', require('./routes/watchlistRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
