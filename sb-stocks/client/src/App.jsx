@@ -36,9 +36,9 @@ export default function App() {
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         {/* Public */}
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/login" element={<Landing />} /> */}
+        <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/about" element={<Landing />} />
 
         {/* User Protected */}
