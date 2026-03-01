@@ -1,120 +1,98 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const FEATURES = [
-  { icon: '💰', title: '$100,000 Virtual Capital', desc: 'Start with $100K paper money to practice trading risk-free.' },
-  { icon: '📈', title: 'Real Market Data', desc: 'Powered by Alpha Vantage API for accurate US stock prices.' },
-  { icon: '📊', title: 'Portfolio Analytics', desc: 'Track P&L, average price, and performance in real-time.' },
-  { icon: '⭐', title: 'Watchlist', desc: 'Monitor your favorite stocks with a custom watchlist.' },
-  { icon: '📜', title: 'Trade History', desc: 'Full transaction log with buy/sell records.' },
-  { icon: '🔒', title: 'Secure & Private', desc: 'JWT authentication with bcrypt password hashing.' },
-];
-
 export default function Landing() {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((s) => s.auth);
+  const navigate = useNavigate();
+  useEffect(() => { if (user) navigate('/dashboard'); }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 text-white">
-      {/* Navbar */}
-      <nav className="border-b border-white/10 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-2xl">📈</span>
-            <span className="text-primary-400">SB</span>
-            <span>Stocks</span>
-          </div>
-          <div className="flex items-center gap-3">
-            {user ? (
-              <Link to="/dashboard" className="bg-primary-600 hover:bg-primary-500 text-white px-5 py-2 rounded-lg font-semibold transition-colors">
-                Dashboard →
-              </Link>
-            ) : (
-              <>
-                <Link to="/login" className="text-gray-300 hover:text-white px-4 py-2 rounded-lg transition-colors font-medium">
-                  Login
-                </Link>
-                <Link to="/register" className="bg-primary-600 hover:bg-primary-500 text-white px-5 py-2 rounded-lg font-semibold transition-colors">
-                  Get Started Free
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-primary-900/30 border border-primary-700/50 text-primary-400 px-4 py-2 rounded-full text-sm font-medium mb-8">
-          🚀 Paper Trading Platform — No Real Money at Risk
-        </div>
-
-        <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-white via-blue-100 to-primary-300 bg-clip-text text-transparent leading-tight">
-          Trade Stocks.<br />Without the Risk.
-        </h1>
-
-        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-          SB Stocks is a paper trading simulator powered by real US market data.
-          Practice your investment strategy with $100,000 virtual capital.
-        </p>
-
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <Link
-            to="/register"
-            className="bg-primary-600 hover:bg-primary-500 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-lg shadow-primary-900/50"
-          >
-            Start Trading Free →
-          </Link>
-          <Link
-            to="/login"
-            className="border border-white/20 hover:border-white/40 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all hover:bg-white/5"
-          >
-            Sign In
-          </Link>
-        </div>
-
-        {/* Mock stats */}
-        <div className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto">
-          {[['$100K', 'Starting Balance'], ['10+', 'US Stocks'], ['Real-time', 'Market Data']].map(([value, label]) => (
-            <div key={label} className="text-center">
-              <p className="text-2xl font-extrabold text-white">{value}</p>
-              <p className="text-sm text-gray-400">{label}</p>
+    <div className="auth-page">
+      <div className="sb-navbar">
+        <span className="brand">SB Stocks</span>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/register">Join now</Link>
+        </nav>
+      </div>
+      <div className="auth-content">
+        <div className="auth-left">
+          <h1>SB Stock Trading</h1>
+          <p>
+            Experience seamless stock market trading with our user-friendly platform,
+            offering real-time data, advanced analytics, and swift execution to empower
+            traders and investors alike.
+          </p>
+          <div className="auth-form-box">
+            <h2>Login</h2>
+            <div className="form-field">
+              <input className="sb-input" placeholder="Email address" type="email" disabled />
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">Everything You Need to Trade</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES.map((feature) => (
-            <div key={feature.title} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
-              <div className="text-3xl mb-3">{feature.icon}</div>
-              <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
+            <div className="form-field">
+              <input className="sb-input" placeholder="Password" type="password" disabled />
             </div>
-          ))}
+            <Link to="/login">
+              <button className="btn-blue" style={{width:"100%",marginTop:"0.5rem"}}>Sign in</button>
+            </Link>
+            <p className="auth-footer-link" style={{marginTop:"0.75rem"}}>
+              Not registered? <Link to="/register">Register</Link>
+            </p>
+          </div>
+        </div>
+        <div className="auth-right">
+          <img
+            src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4c8.png"
+            alt="Trading illustration"
+            style={{opacity:0}}
+          />
+          <svg viewBox="0 0 500 400" style={{maxWidth:"440px",width:"100%"}}>
+            <defs>
+              <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#e8f4fd"/>
+                <stop offset="100%" stopColor="#c5e3f7"/>
+              </linearGradient>
+            </defs>
+            {/* Floor */}
+            <ellipse cx="250" cy="370" rx="200" ry="20" fill="#d0e8f5" opacity="0.5"/>
+            {/* Bar chart blocks */}
+            <rect x="80" y="200" width="55" height="150" rx="4" fill="#4a90c4" opacity="0.85"/>
+            <rect x="150" y="150" width="55" height="200" rx="4" fill="#3a7fb5" opacity="0.9"/>
+            <rect x="220" y="100" width="55" height="250" rx="4" fill="#1a56a0"/>
+            <rect x="290" y="170" width="55" height="180" rx="4" fill="#2e7ab8" opacity="0.85"/>
+            {/* Arrow */}
+            <polyline points="70,280 150,210 230,160 320,130 400,80" stroke="#1c3e6b" strokeWidth="3" fill="none" strokeLinecap="round"/>
+            <polygon points="400,80 388,95 408,90" fill="#1c3e6b"/>
+            {/* Dollar signs */}
+            <circle cx="410" cy="180" r="22" fill="#ffd700" opacity="0.9"/>
+            <text x="404" y="186" fontSize="18" fontWeight="bold" fill="#333">$</text>
+            <circle cx="440" cy="220" r="15" fill="#ffd700" opacity="0.7"/>
+            <text x="436" y="226" fontSize="12" fontWeight="bold" fill="#333">$</text>
+            {/* Person 1 */}
+            <circle cx="350" cy="250" r="15" fill="#f5a623"/>
+            <rect x="340" y="265" width="20" height="35" rx="3" fill="#2c5fa8"/>
+            <line x1="335" y1="275" x2="325" y2="295" stroke="#2c5fa8" strokeWidth="4" strokeLinecap="round"/>
+            <line x1="360" y1="275" x2="375" y2="280" stroke="#2c5fa8" strokeWidth="4" strokeLinecap="round"/>
+            {/* Person 2 */}
+            <circle cx="150" cy="310" r="12" fill="#e8956d"/>
+            <rect x="142" y="322" width="16" height="28" rx="3" fill="#e67e22"/>
+            {/* Coffee cup */}
+            <rect x="175" y="330" width="22" height="18" rx="3" fill="#8b4513"/>
+            <rect x="173" y="326" width="26" height="6" rx="2" fill="#6b3410"/>
+            <path d="M183,320 Q185,314 187,320" stroke="#8b4513" strokeWidth="1.5" fill="none"/>
+            {/* Laptop */}
+            <rect x="130" y="338" width="45" height="28" rx="3" fill="#ccc"/>
+            <rect x="133" y="341" width="39" height="20" rx="2" fill="#1a56a0"/>
+            {/* Lightbulb */}
+            <circle cx="100" cy="290" r="14" fill="#ffd700" opacity="0.8"/>
+            <rect x="96" y="303" width="8" height="8" rx="1" fill="#ccc"/>
+            <line x1="100" y1="272" x2="100" y2="265" stroke="#ffd700" strokeWidth="2"/>
+            <line x1="115" y1="278" x2="120" y2="273" stroke="#ffd700" strokeWidth="2"/>
+            <line x1="85" y1="278" x2="80" y2="273" stroke="#ffd700" strokeWidth="2"/>
+          </svg>
         </div>
       </div>
-
-      {/* CTA */}
-      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <div className="bg-gradient-to-r from-primary-900/50 to-blue-900/50 border border-primary-700/30 rounded-3xl p-12">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Trading?</h2>
-          <p className="text-gray-400 mb-8">Join and practice trading US stocks with no financial risk.</p>
-          <Link
-            to="/register"
-            className="bg-primary-600 hover:bg-primary-500 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all inline-block"
-          >
-            Create Free Account →
-          </Link>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-8 text-center text-gray-500 text-sm">
-        <p>© 2025 SB Stocks. Paper trading for educational purposes only.</p>
-      </footer>
     </div>
   );
 }

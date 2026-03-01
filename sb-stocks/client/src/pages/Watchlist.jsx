@@ -4,151 +4,128 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from '../redux/slices/watchlistSlice';
 import { fetchStocks } from '../redux/slices/stockSlice';
-import { formatCurrency, formatPercent, getPnLColor } from '../utils/helpers';
-import { PageLoader } from '../components/common/Spinner';
+import Spinner from '../components/common/Spinner';
+
+function getCompanyName(symbol) {
+  const map = {
+    AAPL: 'Apple Inc.', GOOGL: 'Alphabet Inc.', MSFT: 'Microsoft Corporation',
+    AMZN: 'Amazon.com Inc.', TSLA: 'Tesla, Inc.', META: 'Meta Platforms Inc.',
+    NVDA: 'NVIDIA Corporation', NFLX: 'Netflix Inc.', AMD: 'Advanced Micro Devices',
+    INTC: 'Intel Corporation',
+  };
+  return map[symbol] || symbol + ' Corporation';
+}
 
 export default function Watchlist() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { items, loading } = useSelector((state) => state.watchlist);
-  const { list: stocks } = useSelector((state) => state.stocks);
-
-  const [newSymbol, setNewSymbol] = useState('');
-  const [adding, setAdding] = useState(false);
+  const { items, loading } = useSelector((s) => s.watchlist);
+  const { list: stocks } = useSelector((s) => s.stocks);
+  const [search, setSearch] = useState('');
+  const [newSym, setNewSym] = useState('');
 
   useEffect(() => {
     dispatch(fetchWatchlist());
     dispatch(fetchStocks());
   }, [dispatch]);
 
+  const getStock = (sym) => stocks.find((s) => s.symbol === sym);
+
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (!newSymbol.trim()) return;
-    setAdding(true);
-    const result = await dispatch(addToWatchlist(newSymbol.trim().toUpperCase()));
-    if (!result.error) {
-      toast.success(`${newSymbol.toUpperCase()} added to watchlist ⭐`);
-      setNewSymbol('');
-    } else {
-      toast.error(result.payload);
-    }
-    setAdding(false);
+    if (!newSym.trim()) return;
+    const res = await dispatch(addToWatchlist(newSym.trim().toUpperCase()));
+    if (!res.error) { toast.success(`${newSym.toUpperCase()} added`); setNewSym(''); }
+    else toast.error(res.payload);
   };
 
-  const handleRemove = async (symbol) => {
-    await dispatch(removeFromWatchlist(symbol));
-    toast.info(`${symbol} removed from watchlist`);
+  const handleRemove = async (sym) => {
+    await dispatch(removeFromWatchlist(sym));
+    toast.info(`${sym} removed`);
   };
 
-  const getStockData = (symbol) => stocks.find((s) => s.symbol === symbol);
+  const filtered = items.filter((i) =>
+    i.symbol.toLowerCase().includes(search.toLowerCase())
+  );
 
-  if (loading) return <PageLoader text="Loading watchlist..." />;
+  if (loading) return <Spinner />;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">My Watchlist</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Track stocks you're interested in</p>
-      </div>
-
-      {/* Add Stock */}
-      <div className="card">
-        <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Add Symbol</h2>
-        <form onSubmit={handleAdd} className="flex gap-3">
-          <input
-            type="text"
-            value={newSymbol}
-            onChange={(e) => setNewSymbol(e.target.value.toUpperCase())}
-            placeholder="e.g. AAPL, TSLA..."
-            className="input-field flex-1"
-            maxLength={10}
-          />
-          <button type="submit" disabled={adding || !newSymbol} className="btn-primary px-6">
-            {adding ? '...' : '+ Add'}
-          </button>
-        </form>
-      </div>
-
-      {/* Watchlist */}
-      {items.length === 0 ? (
-        <div className="card text-center py-20">
-          <p className="text-4xl mb-4">⭐</p>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Your Watchlist is Empty</h3>
-          <p className="text-gray-500 dark:text-gray-400">Add stock symbols above to track them here.</p>
-        </div>
-      ) : (
-        <div className="card overflow-hidden p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 dark:bg-dark-bg border-b border-gray-100 dark:border-dark-border">
-                  {['Symbol', 'Price', 'Change', '% Change', 'High', 'Low', 'Actions'].map((h) => (
-                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-dark-border">
-                {items.map((item) => {
-                  const stock = getStockData(item.symbol);
-                  return (
-                    <tr key={item.symbol} className="hover:bg-gray-50 dark:hover:bg-dark-border transition-colors">
-                      <td className="px-4 py-4">
-                        <button
-                          onClick={() => navigate(`/stocks/${item.symbol}`)}
-                          className="font-bold text-primary-600 dark:text-primary-400 hover:underline"
-                        >
-                          {item.symbol}
-                        </button>
-                      </td>
-                      {stock ? (
-                        <>
-                          <td className="px-4 py-4 font-mono font-semibold text-gray-900 dark:text-white">
-                            {formatCurrency(stock.price)}
-                          </td>
-                          <td className={`px-4 py-4 font-mono font-medium ${getPnLColor(stock.change)}`}>
-                            {stock.change >= 0 ? '+' : ''}{formatCurrency(stock.change)}
-                          </td>
-                          <td className={`px-4 py-4 font-medium ${getPnLColor(stock.changePercent)}`}>
-                            {formatPercent(stock.changePercent)}
-                          </td>
-                          <td className="px-4 py-4 text-gray-500 dark:text-gray-400 font-mono text-sm">
-                            {formatCurrency(stock.high)}
-                          </td>
-                          <td className="px-4 py-4 text-gray-500 dark:text-gray-400 font-mono text-sm">
-                            {formatCurrency(stock.low)}
-                          </td>
-                        </>
-                      ) : (
-                        <td colSpan={5} className="px-4 py-4 text-gray-400 dark:text-gray-500 text-sm">
-                          Loading data...
-                        </td>
-                      )}
-                      <td className="px-4 py-4">
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => navigate(`/stocks/${item.symbol}`)}
-                            className="text-xs bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 px-3 py-1.5 rounded-lg font-medium transition-colors"
-                          >
-                            View
-                          </button>
-                          <button
-                            onClick={() => handleRemove(item.symbol)}
-                            className="text-xs bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 px-3 py-1.5 rounded-lg font-medium transition-colors"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+    <div className="sb-card">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <h2 style={{ fontSize: '1.15rem', fontWeight: 600, color: '#1c2e42', margin: 0 }}>Watchlist</h2>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <form onSubmit={handleAdd} style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              className="sb-input"
+              placeholder="Add symbol (e.g. AAPL)"
+              style={{ width: '180px' }}
+              value={newSym}
+              onChange={(e) => setNewSym(e.target.value.toUpperCase())}
+            />
+            <button type="submit" className="btn-blue" style={{ padding: '0.5rem 1rem', fontSize: '0.82rem' }}>+ Add</button>
+          </form>
+          <div className="search-wrap">
+            <input
+              className="sb-input"
+              placeholder="Enter Stock Symbol..."
+              style={{ width: '200px' }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value.toUpperCase())}
+            />
+            <span className="search-icon">🔍</span>
           </div>
         </div>
-      )}
+      </div>
+
+      <div style={{ overflowX: 'auto' }}>
+        <table className="sb-table">
+          <thead>
+            <tr>
+              <th>Exchange</th>
+              <th>Stock name</th>
+              <th>Symbol</th>
+              <th>Stock Type</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((item) => (
+              <tr key={item.symbol}>
+                <td><span className="badge badge-nasdaq">NASDAQ</span></td>
+                <td style={{ fontWeight: 500, color: '#1c2e42' }}>{getCompanyName(item.symbol)}</td>
+                <td style={{ fontWeight: 600 }}>{item.symbol}</td>
+                <td style={{ color: '#555' }}>Common Stock</td>
+                <td>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      className="btn-blue"
+                      style={{ padding: '0.35rem 1rem', fontSize: '0.8rem' }}
+                      onClick={() => navigate(`/stocks/${item.symbol}`)}
+                    >
+                      View Chart
+                    </button>
+                    <button
+                      className="btn-red"
+                      style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+                      onClick={() => handleRemove(item.symbol)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', color: '#8a96a3', padding: '2.5rem' }}>
+                  {items.length === 0 ? 'Your watchlist is empty. Add stocks above!' : 'No matches found.'}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
