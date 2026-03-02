@@ -40,9 +40,13 @@ const buyStock = async (req, res) => {
     }
 
     // Use client price (from our own stock API) — server side fetched
-    const price = clientPrice;
-    if (!price || price <= 0) {
-      return res.status(400).json({ success: false, message: 'Invalid price' });
+    const price = await getCurrentPrice(sym);
+
+    if (!price) {
+      return res.status(400).json({
+        success: false,
+        message: 'Unable to fetch live price',
+      });
     }
 
     const totalCost = price * quantity;

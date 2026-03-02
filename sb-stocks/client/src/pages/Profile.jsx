@@ -86,7 +86,7 @@ export default function Profile() {
         {transactions.length === 0 ? (
           <p style={{ color: '#8a96a3', fontSize: '0.875rem' }}>No transactions yet.</p>
         ) : (
-          transactions.slice(0, 10).map((tx) => (
+            transactions.map((tx) =>  (
             <div className="row-item" key={tx._id}>
               <div>
                 <div className="lbl">Amount</div>
