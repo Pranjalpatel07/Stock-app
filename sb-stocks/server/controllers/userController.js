@@ -4,12 +4,13 @@ const User = require("../models/userModel.js");
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwtSecretVeryConfidential";
 
+// userController.js
 const cookieOptions = {
   httpOnly: true,
-  sameSite: "lax",
-  maxAge: 3600 * 1000, // 1 hour in ms
+  sameSite: "none",   // ← was "lax", cross-origin needs "none"
+  secure: true,       // ← required when sameSite is "none"
+  maxAge: 3600 * 1000,
 };
-
 const register = async (req, res) => {
   const { username, email, usertype, password } = req.body;
   try {
