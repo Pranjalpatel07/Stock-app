@@ -1,18 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const connectToDB = () => {
-//   mongoose
-//     .connect("mongodb+srv://prince7z:zibrish@testing.kmrpfyw.mongodb.net/StockApp", {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     })
-//     .then(() => {
-//       console.log("Connected to MONGO DB");
-//     })
-//     .catch((e) => console.log(`Error in db connection ${e}`));
-// };
-
-// module.exports = connectToDB;
 
 const mongoose = require("mongoose");
 
