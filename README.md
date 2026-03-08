@@ -143,7 +143,7 @@ Stock Data API (Alpha Vantage)
 
 #  Project Structure
 
----
+```
 
 sb_stock
 │
@@ -252,7 +252,7 @@ sb_stock
 │
 └── README.md
 
----
+```
 
 # ⚙️ Installation & Setup
 
