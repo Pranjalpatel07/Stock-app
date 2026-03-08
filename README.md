@@ -1,267 +1,482 @@
-# Stock-app
-Team Member - 
-Leader - Pranjal Patel
-Member - Prayag Sahu
-Member - Prince Sahu
-Member - Pravesh Tiwari
 
+# SB Stocks — Trading Platform
 
-# 📈 SB Stocks — Paper Trading Platform
+**SB Stocks** is a **full-stack MERN trading platform** that allows users to simulate stock market trading using **$100,000 virtual capital** with real-time market data.
 
-A **full-stack MERN paper trading simulator** where users can practice stock trading with **$100,000 in virtual money** using real-time US stock market data.
+The platform helps beginners practice trading strategies **without risking real money**, while providing tools similar to professional trading dashboards.
 
 ---
 
-##  Features
+# Team Members
 
--  **Authentication** — JWT-based register/login with bcrypt password hashing
--  **Virtual Trading** — Buy/sell stocks with $100,000 virtual capital
--  **Real Market Data** — Alpha Vantage API integration (with mock data fallback)
--  **Portfolio Tracking** — Live P&L, average price, and position value
--  **Watchlist** — Track your favorite stocks
--  **Trade History** — Complete transaction log
--  **Dark/Light Mode** — Full theme toggle
--  **Admin Panel** — Manage users, balances, and tracked stocks
--  **Responsive** — Works on mobile, tablet, and desktop
+| Role        | Name               |
+| ----------- | ------------------ |
+| Team Leader | **Pranjal Patel**  |
+| Developer   | **Prayag Sahu**    |
+| Developer   | **Prince Sahu**    |
+| Developer   | **Pravesh Tiwari** |
 
 ---
 
-##  Tech Stack
+# Project Overview
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 + Vite, Redux Toolkit, Tailwind CSS, Chart.js |
-| Backend | Node.js, Express.js, JWT, bcryptjs |
-| Database | MongoDB (Mongoose) |
-| Stock Data | Alpha Vantage REST API |
-| State | Redux Toolkit with async thunks |
-| Routing | React Router DOM v6 |
-| Notifications | React Toastify |
+SB Stocks replicates the experience of a real stock brokerage platform where users can:
+
+* Create an account
+* Track stock prices
+* Buy or sell stocks
+* Monitor their portfolio
+* View trade history
+* Maintain watchlists
+* Analyze charts
+
+The platform uses **real stock market data APIs** combined with a **virtual trading engine**.
 
 ---
 
-##  Project Structure
+# Key Features
+
+### Authentication & Security
+
+* Secure **JWT based authentication**
+* **bcrypt password hashing**
+* Protected API routes
+* Role-based access (**User / Admin**)
+
+### Paper Trading Engine
+
+* Each user starts with **$100,000 virtual capital**
+* Buy and sell stocks
+* Automatic balance updates
+* Average price calculation
+* Profit / Loss tracking
+
+###  Portfolio Management
+
+* Real-time portfolio value
+* Holdings overview
+* Position value calculation
+* Performance tracking
+
+###  Watchlist
+
+* Track multiple tickers
+* Quick market access
+
+###  Trade History
+
+* Complete transaction log
+* Buy / Sell record
+* Time and price tracking
+
+###  Charts & Analytics
+
+* Interactive stock charts
+* Historical price data
+* Performance visualization
+
+###  UI Features
+
+* Responsive design
+* Mobile compatible interface
+
+###  Admin Panel
+
+Admin users can:
+
+* Manage platform users
+* Adjust user balances
+* Manage stock listings
+* Monitor trading activity
+
+---
+
+#  System Architecture
 
 ```
-sb-stocks/
-├── client/                    # React Frontend (Vite)
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/        # StockCard, TradeModal, StockChart, Spinner
-│   │   │   └── layout/        # Navbar, Layout
-│   │   ├── pages/             # Landing, Login, Register, Dashboard...
-│   │   ├── redux/
-│   │   │   ├── store.js
-│   │   │   └── slices/        # authSlice, stockSlice, tradeSlice...
-│   │   ├── services/          # Axios API config
-│   │   └── utils/             # Helpers (currency, date formatting)
+Frontend (React + Vite)
+        │
+        │ REST API
+        ▼
+Backend (Node.js + Express)
+        │
+        │ Mongoose ODM
+        ▼
+Database (MongoDB Atlas)
+        │
+        ▼
+Stock Data API (Alpha Vantage)
+```
+
+---
+
+#  Tech Stack
+
+## Frontend
+
+* React 18
+* Vite
+* Tailwind CSS
+* Redux Toolkit
+* React Router DOM
+* Chart.js
+* React Toastify
+
+## Backend
+
+* Node.js
+* Express.js
+* JWT Authentication
+* bcryptjs
+* Express Validator
+
+## Database
+
+* MongoDB Atlas
+* Mongoose ODM
+
+## External APIs
+
+* Alpha Vantage API (Stock Market Data)
+
+---
+
+#  Project Structure
+
+---
+
+sb_stock
+│
+├── client
+│
+│   ├── node_modules
+│
+│   ├── public
+│
+│   ├── src
+│   │
+│   │   ├── assets
+│   │   │   ├── about1.jpg
+│   │   │   ├── about2.jpg
+│   │   │   └── home-hero-img.png
+│   │
+│   │   ├── components
+│   │   │   ├── axiosInstance.js
+│   │   │   ├── Login.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── Register.jsx
+│   │
+│   │   ├── context
+│   │   │   └── GeneralContext.jsx
+│   │
+│   │   ├── pages
+│   │   │   ├── Admin.jsx
+│   │   │   ├── AdminStockChart.jsx
+│   │   │   ├── AllOrders.jsx
+│   │   │   ├── AllTransactions.jsx
+│   │   │   ├── History.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Landing.jsx
+│   │   │   ├── Portfolio.jsx
+│   │   │   ├── Profile.jsx
+│   │   │   ├── StockChart.jsx
+│   │   │   └── Users.jsx
+│   │
+│   │   ├── RouteProtectors
+│   │   │   ├── AuthProtector.jsx
+│   │   │   └── LoginProtector.jsx
+│   │
+│   │   ├── styles
+│   │   │   ├── Admin.css
+│   │   │   ├── AdminStockChart.css
+│   │   │   ├── AllOrders.css
+│   │   │   ├── AllTransactions.css
+│   │   │   ├── History.css
+│   │   │   ├── Home.css
+│   │   │   ├── Landing.css
+│   │   │   ├── Navbar.css
+│   │   │   ├── Portfolio.css
+│   │   │   ├── Profile.css
+│   │   │   ├── StockChart.css
+│   │   │   └── Users.css
+│   │
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── logo.svg
+│   │   ├── reportWebVitals.js
+│   │   └── setupTests.js
+│
+│   ├── .env
+│   ├── .gitignore
+│   ├── package-lock.json
 │   └── package.json
 │
-└── server/                    # Express Backend
-    ├── config/                # MongoDB connection
-    ├── controllers/           # authController, stockController, tradeController...
-    ├── middleware/            # JWT auth, admin middleware
-    ├── models/                # User, Transaction, Portfolio, Watchlist
-    ├── routes/                # Route definitions
-    └── server.js
-```
+│
+├── server
+│
+│   ├── .dist
+│
+│   ├── config
+│   │   └── db.js
+│
+│   ├── controllers
+│   │   ├── userController.js
+│   │   ├── stockController.js
+│   │   └── transactionController.js
+│
+│   ├── middlewares
+│   │   └── authMiddleware.js
+│
+│   ├── models
+│   │   ├── userModel.js
+│   │   ├── stocksSchema.js
+│   │   ├── ordersSchema.js
+│   │   └── transactionModel.js
+│
+│   ├── node_modules
+│
+│   ├── routes
+│   │   ├── userRoute.js
+│   │   ├── stockRoute.js
+│   │   └── transactionRoute.js
+│
+│   ├── .env
+│   ├── API_DOC.md
+│   ├── index.js
+│   ├── package-lock.json
+│   ├── package.json
+│   └── Schemas.js
+│
+└── README.md
 
 ---
 
-##  Quick Start
+# ⚙️ Installation & Setup
 
-### Prerequisites
-
-- Node.js 18+
-- MongoDB Atlas account (free)
-- Alpha Vantage API key (free at [alphavantage.co](https://www.alphavantage.co/support/#api-key))
-
----
-
-### 1. Clone & Install
+## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/sb-stocks.git
-cd sb-stocks
-
-# Install server dependencies
-cd server && npm install
-
-# Install client dependencies
-cd ../client && npm install
+git clone https://github.com/Pranjalpatel07/Stock-app.git
+cd Stock-app
 ```
 
 ---
 
-### 2. Configure Environment Variables
+## 2️⃣ Install Dependencies
 
-**Server (`/server/.env`):**
+### Backend
 
-```env
+```bash
+cd server
+npm install
+```
+
+### Frontend
+
+```bash
+cd ../client
+npm install
+```
+
+---
+
+# 🔑 Environment Variables
+
+## Backend `.env`
+
+```
 PORT=5000
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/sb-stocks
-JWT_SECRET=your_very_secret_key_minimum_32_chars
+
+MONGODB_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_super_secret_key
+
 JWT_EXPIRE=7d
-ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
-NODE_ENV=development
+
+ALPHA_VANTAGE_API_KEY=your_api_key
+
 CLIENT_URL=http://localhost:5173
 ```
 
-**Client (`/client/.env`):**
+---
 
-```env
-VITE_API_URL=http://localhost:5000/api
+## Frontend `.env`
+
+```
+VITE_API_URL=http://localhost:5000
 ```
 
 ---
 
-### 3. Run Development Servers
+# ▶️ Run Development Server
 
-```bash
-# Terminal 1 — Start backend
+### Start Backend
+
+```
 cd server
 npm run dev
+```
 
-# Terminal 2 — Start frontend
+### Start Frontend
+
+```
 cd client
 npm run dev
 ```
 
-App runs at: `http://localhost:5173`
+Frontend will run at:
 
----
-
-### 4. Create Admin User
-
-After registering, open MongoDB Atlas and update the user's role field:
-
-```js
-// In MongoDB Atlas Data Explorer or Compass:
-db.users.updateOne(
-  { email: "admin@sbstocks.com" },
-  { $set: { role: "admin" } }
-)
+```
+http://localhost:5173
 ```
 
 ---
 
-##  API Reference
+# 📡 API Endpoints
 
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login + get JWT |
-| GET | `/api/auth/profile` | Get current user profile |
+## Authentication
 
-### Stocks
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/stocks` | Get list of stocks with quotes |
-| GET | `/api/stocks/:symbol` | Get stock detail + historical OHLC |
-
-### Trading
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/trade/buy` | Buy stock |
-| POST | `/api/trade/sell` | Sell stock |
-| GET | `/api/trade/history` | Get trade history |
-
-### Portfolio
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/portfolio` | Get user portfolio holdings |
-
-### Watchlist
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/watchlist` | Get user watchlist |
-| POST | `/api/watchlist` | Add symbol to watchlist |
-| DELETE | `/api/watchlist/:symbol` | Remove from watchlist |
-
-### Admin (Admin only)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/users` | Get all users |
-| GET | `/api/admin/stocks` | Get tracked stock list |
-| POST | `/api/admin/add-stock` | Add stock to list |
-| DELETE | `/api/admin/delete-stock/:symbol` | Remove stock |
-| PUT | `/api/admin/users/:id/balance` | Update user balance |
+| Method | Endpoint             | Description   |
+| ------ | -------------------- | ------------- |
+| POST   | `/api/auth/register` | Register user |
+| POST   | `/api/auth/login`    | Login user    |
+| GET    | `/api/auth/profile`  | Get profile   |
 
 ---
 
-##  Deployment
+## Stocks
 
-### Backend → Render
-
-1. Push to GitHub
-2. Create a new **Web Service** on [render.com](https://render.com)
-3. Set **Root Directory** to `server`
-4. **Build Command**: `npm install`
-5. **Start Command**: `npm start`
-6. Add environment variables in Render dashboard
-
-### Frontend → Vercel
-
-1. Import GitHub repo on [vercel.com](https://vercel.com)
-2. Set **Root Directory** to `client`
-3. **Framework**: Vite
-4. Add environment variable:
-   - `VITE_API_URL` = `https://your-render-backend.onrender.com/api`
-5. Deploy
+| Method | Endpoint              |
+| ------ | --------------------- |
+| GET    | `/api/stocks`         |
+| GET    | `/api/stocks/:symbol` |
 
 ---
 
-##  Alpha Vantage API Notes
+## Trading
 
-- Free tier: **25 API calls/day**, **5 calls/minute**
-- App automatically falls back to **realistic mock data** when rate limits are hit (shown as "DEMO" badge)
-- For production, consider Alpha Vantage premium or an alternative API (Polygon.io, Finnhub)
-
----
-
-##  Security Features
-
-- ✅ bcrypt password hashing (salt rounds: 10)
-- ✅ JWT authentication with expiry
-- ✅ Role-based access control (user/admin)
-- ✅ Input validation with express-validator
-- ✅ CORS configuration
-- ✅ Balance and quantity protection (no negatives)
-- ✅ Server-side API key (never exposed to client)
+| Method | Endpoint             |
+| ------ | -------------------- |
+| POST   | `/api/trade/buy`     |
+| POST   | `/api/trade/sell`    |
+| GET    | `/api/trade/history` |
 
 ---
 
-##  Database Models
+## Portfolio
+
+| Method | Endpoint         |
+| ------ | ---------------- |
+| GET    | `/api/portfolio` |
+
+---
+
+## Watchlist
+
+| Method | Endpoint                 |
+| ------ | ------------------------ |
+| GET    | `/api/watchlist`         |
+| POST   | `/api/watchlist`         |
+| DELETE | `/api/watchlist/:symbol` |
+
+---
+
+## Admin
+
+| Method | Endpoint                          |
+| ------ | --------------------------------- |
+| GET    | `/api/admin/users`                |
+| POST   | `/api/admin/add-stock`            |
+| DELETE | `/api/admin/delete-stock/:symbol` |
+| PUT    | `/api/admin/users/:id/balance`    |
+
+---
+
+# 🗄 Database Schema
 
 ### User
+
 ```
-name, email, password (hashed), role, balance, createdAt
+name
+email
+password
+role
+balance
+createdAt
 ```
 
-### Transaction
-```
-userId, symbol, quantity, price, type (BUY/SELL), total, createdAt
-```
+---
 
 ### Portfolio
+
 ```
-userId, symbol, quantity, avgPrice
-Compound index: (userId + symbol) = unique per user
+userId
+symbol
+quantity
+avgPrice
 ```
+
+---
+
+### Transaction
+
+```
+userId
+symbol
+type
+price
+quantity
+total
+createdAt
+```
+
+---
 
 ### Watchlist
+
 ```
-userId, symbol
-Compound index: (userId + symbol) = unique per user
+userId
+symbol
 ```
 
 ---
 
-##  License
+#  Deployment
 
-MIT License — Free to use for educational and personal projects.
+## Backend Deployment
+
+Recommended platform:
+
+* Railway
+
+
+Build command
+
+```
+npm install
+```
+
+Start command
+
+```
+npm start
+```
 
 ---
 
+## Frontend Deployment
 
+Recommended:
+
+* Vercel
+
+Environment variable:
+
+```
+VITE_API_URL=https://your-backend-url/api
+```
+
+---
